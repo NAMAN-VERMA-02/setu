@@ -1,0 +1,76 @@
+/* Light/dark theme. Light tokens live in globals.css; this file adds the new
+   tokens, the dark palette and the circular reveal used by the theme toggle. */
+
+:root {
+  --surface: #ffffff;
+  --on-ink: #ffffff;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #121211;
+  --surface: #1c1c1a;
+  --ink: #f1efe8;
+  --on-ink: #121211;
+  --muted: #a5a39a;
+  --red: #ff8a70;
+  --blue: #1f5273;
+  --yellow: #5f4f14;
+  --red-tile: #b8412b;
+  --sage: #36503a;
+  --stone: #35342f;
+}
+
+/* Utilities written with raw "white" are really "card surface" or "text on ink". */
+html[data-theme="dark"] .bg-white {
+  background-color: var(--surface);
+}
+html[data-theme="dark"] .text-white {
+  color: var(--on-ink);
+}
+html[data-theme="dark"] .text-white\/60 {
+  color: color-mix(in srgb, var(--on-ink) 60%, transparent);
+}
+html[data-theme="dark"] .text-white\/75 {
+  color: color-mix(in srgb, var(--on-ink) 75%, transparent);
+}
+html[data-theme="dark"] .hover\:text-white:hover {
+  color: var(--on-ink);
+}
+/* Unread badge sits on a red tile, so it keeps light text in both themes. */
+html[data-theme="dark"] .bg-\[var\(--red-tile\)\].text-white {
+  color: #fff;
+}
+
+/* Circular reveal: the new theme grows out of the toggle (animated in JS). */
+html.theme-vt::view-transition-old(root),
+html.theme-vt::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html.theme-vt::view-transition-old(root) {
+  z-index: 1;
+}
+html.theme-vt::view-transition-new(root) {
+  z-index: 2;
+}
+
+.theme-toggle .sun,
+.theme-toggle .moon {
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+}
+.theme-toggle .moon {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-80deg) scale(0.4);
+}
+html[data-theme="dark"] .theme-toggle .sun {
+  opacity: 0;
+  transform: rotate(80deg) scale(0.4);
+}
+html[data-theme="dark"] .theme-toggle .moon {
+  opacity: 1;
+  transform: none;
+}

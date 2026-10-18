@@ -1,0 +1,122 @@
+/* Image-free atmosphere: slow colour glows behind the page, a live pulse, soft card lift.
+   Everything is CSS or SVG, uses the theme tokens, and stops for reduced motion. */
+
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  width: 46vmax;
+  height: 46vmax;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
+  will-change: transform;
+}
+body::before {
+  top: -18vmax;
+  left: -12vmax;
+  background: radial-gradient(circle, var(--blue), transparent 68%);
+  animation: ambient-drift-a 26s ease-in-out infinite alternate;
+}
+body::after {
+  right: -14vmax;
+  bottom: -20vmax;
+  background: radial-gradient(circle, var(--yellow), transparent 68%);
+  animation: ambient-drift-b 32s ease-in-out infinite alternate;
+}
+html[data-theme="dark"] body::before,
+html[data-theme="dark"] body::after {
+  opacity: 0.32;
+}
+
+@keyframes ambient-drift-a {
+  to {
+    transform: translate(14vmax, 10vmax) scale(1.15);
+  }
+}
+@keyframes ambient-drift-b {
+  to {
+    transform: translate(-12vmax, -9vmax) scale(1.2);
+  }
+}
+
+/* Live indicator */
+.live-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: background-color 0.3s ease;
+}
+.live-pill[data-on] .live-dot {
+  background: #22c55e;
+}
+.live-pill[data-on] .live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: live-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes live-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+/* Cards and list rows lift a little on hover. */
+.rounded-\[22px\],
+.rounded-2xl {
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease;
+}
+main li.rounded-2xl:hover,
+main article.rounded-\[22px\]:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after,
+  .live-pill[data-on] .live-dot::after {
+    animation: none;
+  }
+}
+
+/* "+10 Points" pop on the helper's phone */
+.points-pop {
+  animation: points-pop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes points-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .points-pop {
+    animation: none;
+  }
+}
