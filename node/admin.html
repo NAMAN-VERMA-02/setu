@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>__COLLEGE_NAME__ | Alumni Data Console</title>
+<style>
+  :root {
+    --accent: #1d3c78; --accent-ink: #ffffff; --bg: #f4f1ea; --card: #ffffff; --ink: #1b1d21; --muted: #5d6470;
+    --line: #d9d4c7; --on: #1f7a4a; --on-bg: #e3f3ea; --off: #b3261e; --off-bg: #fbe7e5;
+    --serif: Georgia, "Times New Roman", serif; --sans: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    --mono: ui-monospace, Consolas, "Courier New", monospace;
+  }
+  :root[data-college="rce"] { --accent: #14573f; }
+  * { box-sizing: border-box; }
+  html { font-size: 18px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.45; }
+  header { background: var(--accent); color: var(--accent-ink); padding: 28px 40px; border-bottom: 6px solid rgba(0,0,0,.25); }
+  header .crest { font-family: var(--serif); font-size: 2.1rem; font-weight: 700; letter-spacing: .01em; }
+  header .sub { opacity: .85; font-size: 1.05rem; margin-top: 4px; }
+  main { max-width: 1280px; margin: 0 auto; padding: 28px 40px 60px; display: grid; gap: 24px; }
+  .row { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px; }
+  .label { font-size: .85rem; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 600; }
+  .big { font-family: var(--serif); font-size: 3.2rem; line-height: 1.05; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .url { font-family: var(--mono); font-size: 1.1rem; word-break: break-all; margin-top: 8px; }
+  .access { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+  .access h2 { margin: 0 0 6px; font-family: var(--serif); font-size: 1.7rem; }
+  .access p { margin: 0; color: var(--muted); max-width: 46ch; }
+  .toggle { border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: 2.2rem; letter-spacing: .04em; min-width: 260px;
+    padding: 22px 34px; border-radius: 16px; color: #fff; transition: transform .1s, background .2s; }
+  .toggle:active { transform: scale(.98); }
+  .toggle.on { background: var(--on); } .toggle.off { background: var(--off); }
+  .toggle:focus-visible, button:focus-visible, input:focus-visible { outline: 4px solid #f5b400; outline-offset: 3px; }
+  .status { display: inline-block; font-weight: 700; padding: 4px 14px; border-radius: 999px; font-size: 1rem; margin-bottom: 10px; }
+  .status.on { background: var(--on-bg); color: var(--on); } .status.off { background: var(--off-bg); color: var(--off); }
+  .zero { color: var(--on); }
+  table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  th { text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 8px 10px; border-bottom: 2px solid var(--line); }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.mono { font-family: var(--mono); font-size: .92rem; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .caller { display: inline-block; font-weight: 600; padding: 1px 10px; border-radius: 6px; background: #eceae2; }
+  .caller.hub { background: #dde6f7; } .caller.mcp { background: #efe2f7; } .caller.browser { background: #e1f1e6; } .caller.admin { background: #f7ecd2; }
+  .reset { background: transparent; border: 2px solid var(--off); color: var(--off); font: inherit; font-weight: 600; font-size: 1.05rem;
+    padding: 10px 22px; border-radius: 10px; cursor: pointer; }
+  .reset:hover { background: var(--off-bg); }
+  .foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; color: var(--muted); }
+  #gate { position: fixed; inset: 0; background: var(--bg); display: grid; place-items: center; z-index: 10; padding: 24px; }
+  #gate form { background: var(--card); border: 1px solid var(--line); border-top: 8px solid var(--accent); border-radius: 12px;
+    padding: 36px 40px; width: min(480px, 100%); }
+  #gate h1 { font-family: var(--serif); font-size: 1.9rem; margin: 0 0 4px; }
+  #gate p { color: var(--muted); margin: 0 0 22px; }
+  #gate input { width: 100%; font: inherit; font-size: 1.2rem; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; }
+  #gate button { margin-top: 16px; width: 100%; font: inherit; font-weight: 700; font-size: 1.2rem; padding: 13px; border: 0; border-radius: 10px;
+    background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+  #gate .err { color: var(--off); min-height: 1.4em; margin-top: 10px; font-weight: 600; }
+  .hidden { display: none !important; }
+  @media (max-width: 700px) { header, main { padding-left: 18px; padding-right: 18px; } .big { font-size: 2.4rem; } .toggle { width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="gate">
+  <form id="loginForm">
+    <h1>__COLLEGE_NAME__</h1>
+    <p>Alumni Data Console, __COLLEGE_CITY__. Enter the administrator password.</p>
+    <label class="label" for="pw">Password</label>
+    <input id="pw" type="password" autocomplete="current-password" autofocus required>
+    <button type="submit">Open console</button>
+    <div class="err" id="loginErr" role="alert"></div>
+  </form>
+</div>
+
+<header>
+  <div class="crest">__COLLEGE_NAME__</div>
+  <div class="sub">Alumni Data Console &middot; __COLLEGE_CITY__ &middot; records held on this server</div>
+</header>
+
+<main id="app" class="hidden">
+  <section class="row">
+    <div class="card">
+      <div class="label">This server</div>
+      <div class="url" id="url">&hellip;</div>
+    </div>
+    <div class="card">
+      <div class="label">People on record</div>
+      <div class="big" id="people">&ndash;</div>
+    </div>
+  </section>
+
+  <section class="card access">
+    <div>
+      <span class="status on" id="statusPill">Connected</span>
+      <h2>Hub access</h2>
+      <p id="accessText">The central hub can currently read pseudonymous records from this server.</p>
+    </div>
+    <button class="toggle on" id="toggle" type="button" aria-pressed="true">ON</button>
+  </section>
+
+  <section class="row">
+    <div class="card"><div class="label">Calls from hub</div><div class="big" id="cHub">&ndash;</div></div>
+    <div class="card"><div class="label">Identifying fields sent to hub</div><div class="big zero" id="cIdf">&ndash;</div></div>
+    <div class="card"><div class="label">Names released after consent</div><div class="big" id="cRel">&ndash;</div></div>
+  </section>
+
+  <section class="card">
+    <div class="label" style="margin-bottom:10px">Last 30 requests to this server</div>
+    <table>
+      <thead><tr><th>Time (UTC)</th><th>Caller</th><th>Request</th><th style="text-align:right">Identifying fields</th></tr></thead>
+      <tbody id="audit"></tbody>
+    </table>
+  </section>
+
+  <section class="foot">
+    <span>Names, contact details and messages never leave this server except to the person concerned, or to someone they have agreed to share with.</span>
+    <button class="reset" id="reset" type="button">Reset to demo data</button>
+  </section>
+</main>
+
+<script>
+(function () {
+  var COLLEGE = "__COLLEGE_ID__";
+  document.documentElement.setAttribute("data-college", COLLEGE);
+  var $ = function (id) { return document.getElementById(id); };
+  var pw = "";
+  try { pw = sessionStorage.getItem("console-pw") || ""; } catch (e) {}
+  var timer = null, hubOn = true, busy = false;
+
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign({ "X-Admin-Password": pw, "Content-Type": "application/json" }, opts.headers || {});
+    return fetch(path, opts);
+  }
+  function showGate(msg) {
+    $("gate").classList.remove("hidden"); $("app").classList.add("hidden");
+    $("loginErr").textContent = msg || ""; clearInterval(timer); timer = null;
+  }
+  function render(s) {
+    $("gate").classList.add("hidden"); $("app").classList.remove("hidden");
+    $("url").textContent = s.url; $("people").textContent = s.people;
+    hubOn = !!s.hub_access;
+    var t = $("toggle");
+    t.textContent = hubOn ? "ON" : "OFF"; t.className = "toggle " + (hubOn ? "on" : "off"); t.setAttribute("aria-pressed", String(hubOn));
+    var p = $("statusPill");
+    p.textContent = hubOn ? "Connected" : "Disconnected"; p.className = "status " + (hubOn ? "on" : "off");
+    $("accessText").textContent = hubOn
+      ? "The central hub can currently read pseudonymous records from this server."
+      : "The hub and any AI assistant are cut off. Every request is refused. Your records stay on this server.";
+    $("cHub").textContent = s.counters.hub_calls;
+    $("cIdf").textContent = s.counters.identifying_fields_to_hub;
+    $("cRel").textContent = s.counters.names_released;
+    var body = $("audit"); body.textContent = "";
+    s.audit.forEach(function (a) {
+      var tr = document.createElement("tr");
+      var c1 = document.createElement("td"); c1.className = "mono"; c1.textContent = a.ts.replace("T", " ").replace("Z", "");
+      var c2 = document.createElement("td"); var sp = document.createElement("span"); sp.className = "caller " + a.caller; sp.textContent = a.caller; c2.appendChild(sp);
+      var c3 = document.createElement("td"); c3.className = "mono"; c3.textContent = a.action + (a.detail ? "  (" + a.detail + ")" : "");
+      var c4 = document.createElement("td"); c4.className = "num"; c4.textContent = a.identifying_fields;
+      tr.append(c1, c2, c3, c4); body.appendChild(tr);
+    });
+  }
+  function poll() {
+    return api("/admin/api/state").then(function (r) {
+      if (r.status === 401) { showGate("Wrong password."); return; }
+      return r.json().then(render);
+    }).catch(function () {});
+  }
+  function start() { poll(); if (!timer) timer = setInterval(poll, 2000); }
+
+  $("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault(); pw = $("pw").value;
+    try { sessionStorage.setItem("console-pw", pw); } catch (e2) {}
+    api("/admin/api/state").then(function (r) {
+      if (r.status === 401) { $("loginErr").textContent = "Wrong password."; return; }
+      start();
+    });
+  });
+  $("toggle").addEventListener("click", function () {
+    if (busy) return; busy = true;
+    var next = !hubOn;
+    if (!next && !confirm("Turn hub access OFF? The hub and AI assistants will be cut off immediately.")) { busy = false; return; }
+    api("/admin/hub-access", { method: "POST", body: JSON.stringify({ on: next }) }).then(poll).finally(function () { busy = false; });
+  });
+  $("reset").addEventListener("click", function () {
+    if (!confirm("Reset this server to the demo data? People who joined will be removed.")) return;
+    api("/admin/reset", { method: "POST" }).then(poll);
+  });
+
+  if (pw) { api("/admin/api/state").then(function (r) { if (r.status === 401) showGate(""); else start(); }); }
+})();
+</script>
+</body>
+</html>
