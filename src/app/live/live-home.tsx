@@ -74,7 +74,15 @@ export function LiveHome() {
             </div>
             <h2 className="mt-3 text-3xl font-black leading-tight">{n.name}</h2>
             <p className="text-[var(--muted)]">{n.city}</p>
-            <p className="mt-4 break-all font-mono text-sm text-[var(--muted)]">{NODE_URL[n.id] ?? "server not configured"}</p>
+            <p className="mt-4 break-all font-mono text-sm text-[var(--muted)]">
+              {NODE_URL[n.id] ? (
+                <a href={`${NODE_URL[n.id]}/health`} target="_blank" rel="noreferrer" className="underline decoration-dotted underline-offset-4">
+                  {NODE_URL[n.id]}
+                </a>
+              ) : (
+                "server not configured"
+              )}
+            </p>
             <div className="mt-5 flex items-end justify-between">
               <p>
                 <span className="text-6xl font-black leading-none tabular-nums">{n.status === "online" ? n.people : "—"}</span>
