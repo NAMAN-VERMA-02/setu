@@ -1,7 +1,7 @@
 // Tries to break the privacy and authorization boundaries of a running hub and its college nodes, and prints
 // PASS/FAIL per attempt. Each line is evidence for a claim made on stage.
 // Usage: node scripts/privacy-probe.mjs [hub-url] [env-file]
-//   e.g. node scripts/privacy-probe.mjs https://oddyssey-nu.vercel.app .env.vercel.production
+//   e.g. node scripts/privacy-probe.mjs https://setu-live-five.vercel.app .env.vercel.production
 import { createHmac } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 

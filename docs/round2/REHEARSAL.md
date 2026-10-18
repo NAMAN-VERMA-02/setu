@@ -6,14 +6,14 @@
 - Hub: 172 vitest tests pass (routing story numbers 0.396 / 0.12 / 0.378, tokens, schema guard, history totals 142 / 68% / 9, colleague edges, Ask Setu helpers). `next build` passes.
 - Hub database functions: a rolled-back SQL block on `oddyssey-kal` played the whole story: intro with 3 hops, idempotent yes, silent decline, re-route to 0.378, delivery as a 15-min call, points (Rohan 10, Priya 10, Meera 25, Vikram 0), hire +100 to the three helpers, no story names in events, a fourth open intro refused.
 
-- Deployed nodes (Render, Singapore, free plan): `https://setu-node-ngit.onrender.com` and `https://setu-node-rce.onrender.com`. Each answers `/health` (44 people), refuses a wrong hub token with 401, lists 44 directory entries with the hub token, and passes `scripts/mcp-smoke.mjs` with `identifying_fields=0`.
+- Deployed nodes (Render, Singapore, free plan): `https://setu-college-ngit.onrender.com` and `https://setu-college-rce.onrender.com`. Each answers `/health` (44 people), refuses a wrong hub token with 401, lists 44 directory entries with the hub token, and passes `scripts/mcp-smoke.mjs` with `identifying_fields=0`.
 
 - **Full story, scripted** (`node scripts/e2e-story.mjs [hub-url]`): 15/15 steps pass against the real hub database with both nodes running locally, in about 25 s. It covers: both colleges online; reset in about 3 s; Mirror (Priya on top at 92%, matches from both colleges); Bridge 39.6% vs 12%; intro sent with the ask kept on NGIT's server; Rohan yes with a note; Vikram decline with a silent re-route via Priya at 37.8%; Priya yes; Meera's 15-minute call; names read straight from the colleges; hire with +100 each; kill switch off and back on within 3 s (about 0.6 s measured); a judge joining and seeing their Mirror; Ask Setu in AI mode with trace calls on both colleges, all `identifying_fields=0`.
 - Ask Setu uses `gemini-3.5-flash-lite` (about 0.8 s per tool-calling turn); the larger `gemini-3.8-flash` took 3 to 10 s and fell outside the 10 s budget. Override with `FED_LLM_MODEL`.
 
 ## Still to run on the deployed URLs (needs Vercel to have the env values, then a redeploy)
 
-Run `node scripts/e2e-story.mjs https://oddyssey-nu.vercel.app .env.vercel.production` (the second argument supplies the Render URLs and secrets; node admin passwords are read from `.env.local`), twice in a row, and record timings below. Then do the same steps by hand on a real phone.
+Run `node scripts/e2e-story.mjs https://setu-live-five.vercel.app .env.vercel.production` (the second argument supplies the Render URLs and secrets; node admin passwords are read from `.env.local`), twice in a row, and record timings below. Then do the same steps by hand on a real phone.
 
 Run twice in a row and record timings here.
 

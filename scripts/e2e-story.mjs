@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from "node:fs";
 
 const HUB = (process.argv[2] ?? "http://localhost:3000").replace(/\/+$/, "");
 const env = { ...process.env };
-// For the deployed run pass the Vercel env file: node scripts/e2e-story.mjs https://oddyssey-nu.vercel.app .env.vercel.production
+// For the deployed run pass the Vercel env file: node scripts/e2e-story.mjs https://setu-live-five.vercel.app .env.vercel.production
 const ENV_FILE = process.argv[3] ?? ".env.local";
 for (const file of [ENV_FILE, ".env.local"]) {
   if (!existsSync(file)) continue;

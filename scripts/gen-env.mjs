@@ -4,7 +4,7 @@
 import { randomBytes } from "node:crypto";
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 
-const [hub = "https://oddyssey-nu.vercel.app", ngit = "https://setu-node-ngit.onrender.com", rce = "https://setu-node-rce.onrender.com"] = process.argv.slice(2);
+const [hub = "https://setu-live-five.vercel.app", ngit = "https://setu-college-ngit.onrender.com", rce = "https://setu-college-rce.onrender.com"] = process.argv.slice(2);
 const secret = () => randomBytes(32).toString("hex");
 
 const s = {
