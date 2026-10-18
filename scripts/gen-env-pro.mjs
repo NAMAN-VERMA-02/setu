@@ -5,7 +5,7 @@
 import { randomBytes } from "node:crypto";
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 
-const [hub = "https://oddyssey-nu.vercel.app", url = "https://setu-node-pro.onrender.com"] = process.argv.slice(2);
+const [hub = "https://setu-live-five.vercel.app", url = "https://setu-college-pro.onrender.com"] = process.argv.slice(2);
 const secret = () => randomBytes(32).toString("hex");
 const s = { hub: secret(), viewer: secret(), mcp: secret(), node: secret(), admin: secret() };
 

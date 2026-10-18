@@ -14,8 +14,8 @@
 
 | Role | Device | Opens |
 |---|---|---|
-| **P** presenter | Laptop on the projector (Chrome, full screen, zoom 100%) | `https://oddyssey-nu.vercel.app/live` |
-| P, second screen (not projected) | Second laptop or your phone | `https://oddyssey-nu.vercel.app/stage?key=<DEMO_STAGE_KEY>` |
+| **P** presenter | Laptop on the projector (Chrome, full screen, zoom 100%) | `https://setu-live-five.vercel.app/live` |
+| P, second screen (not projected) | Second laptop or your phone | `https://setu-live-five.vercel.app/stage?key=<DEMO_STAGE_KEY>` |
 | **T1** teammate | Phone 1, three tabs | `/live/inbox?as=rahul`, `/live/inbox?as=rohan`, `/live/inbox?as=priya` |
 | **T2** teammate | Phone 2, three tabs | `/live/inbox?as=ishaan`, `/live/inbox?as=vikram`, `/live/inbox?as=meera` |
 | **M** mentor | Their own phone (optional) | scans a QR; nothing to install |
@@ -27,7 +27,7 @@ No teammates? **Solo mode:** skip the phones. On `/stage` every waiting person h
 
 **T minus 30 min**
 1. Open `/stage?key=…`. Press **Warm up**. Wait until **all three lights are green** (the free servers sleep after 15 idle minutes and take up to a minute to wake).
-2. In the terminal: `node scripts/e2e-story.mjs https://oddyssey-nu.vercel.app .env.vercel.production`. Expect **23 of 23 steps passed**. It also resets the demo.
+2. In the terminal: `node scripts/e2e-story.mjs https://setu-live-five.vercel.app .env.vercel.production`. Expect **23 of 23 steps passed**. It also resets the demo.
 3. In the terminal: `node scripts/mcp-demo.mjs .env.vercel.production`. Expect "0 names in every response".
 
 **T minus 5 min**
@@ -103,7 +103,7 @@ Times are targets. **Say** is what you speak. **Proof** is what makes it real, i
 - **Say:** "Look for a name. There isn't one. This is the live database, not a mock-up."
 
 ### 8:00 · Proof 2 · The kill switch (45 s)
-- **Do:** open the professional server's own console in a new tab: `https://setu-node-pro.onrender.com/admin` (password in `node/.env.render-pro`). Press **Hub access OFF**.
+- **Do:** open the professional server's own console in a new tab: `https://setu-college-pro.onrender.com/admin` (password in `node/.env.render-pro`). Press **Hub access OFF**.
 - **Screen:** switch to `/live`: the **PROS** light goes red. Go to **Find**: the professionals are gone, the colleges still answer, and the page says the network is offline and its people are not shown.
 - **Do:** press **Hub access ON**: back within about a second.
 - **Say:** "A hospital or a college can leave at any time. Their people vanish, because Setu never had them."
@@ -133,7 +133,7 @@ Times are targets. **Say** is what you speak. **Proof** is what makes it real, i
 | No one scans the QR | `/stage` → **Play … on this device**. |
 | Wi-Fi dies | Phone hotspot on the laptop and both phones. |
 | Gemini is slow | Ask Setu and the draft fall back to offline mode by themselves after 10 s. Say so: "it still works without AI." |
-| Anything else | Run `node scripts/e2e-story.mjs https://oddyssey-nu.vercel.app .env.vercel.production` on the second screen and narrate the 23 passing steps. That is real, but a last resort. |
+| Anything else | Run `node scripts/e2e-story.mjs https://setu-live-five.vercel.app .env.vercel.production` on the second screen and narrate the 23 passing steps. That is real, but a last resort. |
 
 ## What we ask a professional (and where it goes)
 

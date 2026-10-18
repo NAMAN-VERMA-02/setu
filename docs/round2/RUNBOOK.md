@@ -7,7 +7,7 @@
    - `node/.env.render-ngit` and `node/.env.render-rce` → paste into each Render service.
    - It also appends the local block to `.env.local`.
 2. Vercel also needs `SUPABASE_SERVICE_ROLE_KEY`, `LLM_PROVIDER=gemini`, `LLM_API_KEY`, `NEXT_PUBLIC_SITE_URL`.
-3. Render: two Web Services from the repo, root directory `node`, build `pip install -r requirements.txt`, start `uvicorn app:app --host 0.0.0.0 --port $PORT`, health check `/health`, region Singapore. Names `setu-node-ngit` and `setu-node-rce`.
+3. Render: two Web Services from the repo, root directory `node`, build `pip install -r requirements.txt`, start `uvicorn app:app --host 0.0.0.0 --port $PORT`, health check `/health`, region Singapore. Names `setu-college-ngit` and `setu-college-rce`.
 4. Keep warm: UptimeRobot on both `/health` every 5 minutes. Keep `/stage` open (it pings every 5 s).
 5. Apply the migration `supabase/migrations/20261021000021_fed_hub.sql` (already applied to `oddyssey-kal`).
 
@@ -48,5 +48,5 @@
 
 ## Screens that blink or never finish loading
 
-Cause seen once (2026-10-18): the hub wrote a server's state to `fed_nodes` on every call, every open screen listens to that table over Realtime, so each search refreshed the screen, which searched again. Fixed: state is written only when it changes. Check any time with `node scripts/realtime-storm-check.mjs https://oddyssey-nu.vercel.app .env.vercel.production` (run it a few seconds after a reset): it must print `PASS: no refresh storm` (0 events for a burst of searches; a few events right after a reset are normal).
+Cause seen once (2026-10-18): the hub wrote a server's state to `fed_nodes` on every call, every open screen listens to that table over Realtime, so each search refreshed the screen, which searched again. Fixed: state is written only when it changes. Check any time with `node scripts/realtime-storm-check.mjs https://setu-live-five.vercel.app .env.vercel.production` (run it a few seconds after a reset): it must print `PASS: no refresh storm` (0 events for a burst of searches; a few events right after a reset are normal).
 If a tab still blinks after a deploy, hard-refresh it (Ctrl+Shift+R): an old tab keeps running the old code.
