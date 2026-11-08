@@ -76,6 +76,11 @@ class Config:
             "HUB_ORIGIN": "http://localhost:3000",
         }
         missing = [k for k in dev_defaults if not env.get(k) and k.lower() not in over]
+        # Render sets RENDER on its services, so a hosted node refuses to start on dev secrets
+        # even if nobody remembered to set SETU_ENV=production.
+        production = env.get("SETU_ENV") == "production" or bool(env.get("RENDER"))
+        if missing and production:
+            raise SystemExit(f"[setu-node] refusing to start in production without: {', '.join(missing)}")
         if missing:
             print(f"[setu-node] WARNING: {', '.join(missing)} not set, using insecure dev defaults", file=sys.stderr)
 

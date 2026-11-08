@@ -15,7 +15,7 @@ Round 1 asked: *why would colleges give you their people's data?* They don't hav
 - **Run a node locally:** `cd node && python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt && COLLEGE_ID=ngit uvicorn app:app --port 8001` (and `COLLEGE_ID=rce DB_PATH=./rce.db uvicorn app:app --port 8002`). Tests: `.venv/Scripts/python -m pytest`.
 - **Secrets and env:** `node scripts/gen-env.mjs <hub-url> <ngit-url> <rce-url>` writes git-ignored env files for Vercel and both Render services. See `.env.example`.
 - **Docs:** [architecture](docs/round2/ARCHITECTURE.md), [demo script](docs/round2/DEMO_SCRIPT.md), [runbook](docs/round2/RUNBOOK.md), [judge Q&A](docs/round2/QA.md), [decisions](docs/round2/DECISIONS.md), [rehearsal log](docs/round2/REHEARSAL.md).
-- **Team & Contributions:** Round 2 federation work committed by NAMAN-VERMA-02.
+- **Team & Contributions:** see [below](#team--contributions). Security model: [THREAT_MODEL.md](THREAT_MODEL.md).
 
 ## What it does
 
@@ -160,6 +160,8 @@ What SETU does **not** claim: that it guarantees a referral or a job (it opens t
 
 ## Team & Contributions
 
-All work in this repository is committed under NAMAN-VERMA (GitHub: NAMAN-VERMA-02), who directed every feature: the schema and security rules, auth, the journey form and PDF import, matching and the route map, the asks and bridge flow, pay it forward, the college dashboard, and the draft agent.
+This is the hackathon team repository: 17 commits from 6 GitHub accounts (NAMAN-VERMA-02: 11; five teammates: 1-2 each). NAMAN-VERMA-02 directed these features: the schema and security rules, auth, the journey form and PDF import, matching and the route map, the asks and bridge flow, pay it forward, the college dashboard, and the draft agent.
 
 Built with Claude as a coding assistant; the team designed, directed and reviewed every feature.
+
+Tests: `npm test` (hub, 179 tests) and `cd node && python -m pytest` (college node, 62 tests), both run in CI. Security model: [THREAT_MODEL.md](THREAT_MODEL.md).
